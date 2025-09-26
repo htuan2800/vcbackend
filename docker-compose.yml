@@ -1,0 +1,61 @@
+#Phiên bản của Docker Compose syntax. 3.8
+version: '3.8'
+
+services:
+ 
+  redis:
+    image: redis:latest
+    container_name: my_redis_vc
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"] #Câu lệnh để kiểm tra “sức khỏe” container. Ở đây là: redis-cli ping
+      interval: 10s #Mỗi 10 giây Docker kiểm tra 1 lần
+      timeout: 5s #Mỗi lần kiểm tra, nếu quá 5 giây chưa có phản hồi → coi là lỗi
+      retries: 5 #Nếu kiểm tra lỗi 5 lần liên tiếp → Docker đánh dấu là unhealthy
+
+  mysql:
+    image: mysql
+    container_name: mysql_vc
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: volunteer_camp
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: my_phpmyadmin_vc
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "8082:80"
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq_vc
+    ports:
+      - "56734:5672"
+      - "15674:15672"
+    restart: always
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  redis-data:
+  mysql-data:
