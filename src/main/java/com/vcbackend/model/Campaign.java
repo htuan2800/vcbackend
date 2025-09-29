@@ -50,8 +50,8 @@ public class Campaign {
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    @JoinColumn(name = "organizer_id", nullable = false)
+    private Organizer organizer;
 
     @Column(name = "featured_image")
     private String featuredImage;

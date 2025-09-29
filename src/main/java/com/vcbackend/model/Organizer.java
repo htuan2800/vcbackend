@@ -2,9 +2,13 @@ package com.vcbackend.model;
 
 import java.util.List;
 
+import com.vcbackend.type.OrganizerType;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,13 +25,13 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "organizations")
+@Table(name = "organizers")
 @EqualsAndHashCode (exclude = {"campaigns"})
 @ToString (exclude = {"campaigns"})
-public class Organization {
+public class Organizer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer organizationId;
+    private Integer organizerId;
 
     @Column(nullable = false, length = 500)
     private String name;
@@ -41,6 +45,10 @@ public class Organization {
     @Column(name = "publicId")
     private String publicId;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrganizerType type;
+
+    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Campaign> campaigns;
 }

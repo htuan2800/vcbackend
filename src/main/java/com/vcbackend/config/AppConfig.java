@@ -47,7 +47,7 @@ public class AppConfig {
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
                 cfg.setAllowedOrigins(Arrays.asList(
-                        "http://localhost:5174" // Sửa từ https thành http và bỏ dấu / ở cuối
+                        "http://localhost:5175" // Sửa từ https thành http và bỏ dấu / ở cuối
                 ));
                 cfg.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Liệt kê cụ thể các
                                                                                                  // phương thức

@@ -2,6 +2,11 @@ package com.vcbackend.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import com.vcbackend.type.Gender;
 import com.vcbackend.type.UserRole;
 
@@ -53,7 +58,11 @@ public class User {
     @Column(name = "CoverPhotoURL", nullable = true)
     private String coverPhotoURL;
 
+    @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "Role", nullable = true)
@@ -64,6 +73,13 @@ public class User {
 
     @Column(name = "is_active")
     private Boolean isActive = true;
+
+    // === EMAIL VERIFICATION ===
+    @Column(name = "verification_token")
+    private String verificationToken;
+    
+    @Column(name = "token_expiry")
+    private LocalDateTime tokenExpiry;
 
     // Relationships
 
